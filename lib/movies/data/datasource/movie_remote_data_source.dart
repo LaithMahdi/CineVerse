@@ -1,6 +1,6 @@
 import 'package:cineverse/core/network/error_message_model.dart';
 import 'package:cineverse/core/utils/app_constance.dart';
-import 'package:cineverse/error/exceptions.dart';
+import 'package:cineverse/core/error/exceptions.dart';
 import 'package:cineverse/movies/data/datasource/base_movie_remote_data_source.dart';
 import 'package:cineverse/movies/data/models/movie_model.dart';
 import 'package:dio/dio.dart';

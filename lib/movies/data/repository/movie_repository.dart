@@ -1,5 +1,5 @@
-import 'package:cineverse/error/exceptions.dart';
-import 'package:cineverse/error/failure.dart';
+import 'package:cineverse/core/error/exceptions.dart';
+import 'package:cineverse/core/error/failure.dart';
 import 'package:cineverse/movies/data/datasource/base_movie_remote_data_source.dart';
 import 'package:cineverse/movies/domain/entities/movie.dart';
 import 'package:cineverse/movies/domain/repository/base_movie_repository.dart';
