@@ -11,7 +11,7 @@ class MovieModel extends Movie {
     required super.releaseDate,
   });
 
-  factory MovieModel.fromJsom(Map<String, dynamic> json) => MovieModel(
+  factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         id: json["id"],
         title: json["title"],
         backdropPath: json["backdrop_path"],
