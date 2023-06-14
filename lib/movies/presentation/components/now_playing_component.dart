@@ -15,10 +15,12 @@ class NowPlayingComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MoviesBloc, MoviesState>(
+      buildWhen: (previous, current) =>
+          previous.nowPlayingState != current.nowPlayingState,
       builder: (context, state) {
+        print("BlocBuilder : NowPlayingComponent");
         switch (state.nowPlayingState) {
           case RequestState.loading:
-            print("loading");
             return SizedBox(
               height: 400.0,
               child: Shimmer.fromColors(
@@ -39,7 +41,7 @@ class NowPlayingComponent extends StatelessWidget {
                   viewportFraction: 1.0,
                   onPageChanged: (index, reason) {},
                   autoPlay: true,
-                  autoPlayAnimationDuration: Duration(seconds: 2),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 1000),
                   autoPlayCurve: Curves.easeIn,
                 ),
                 items: state.nowPlayingMovies.map(
