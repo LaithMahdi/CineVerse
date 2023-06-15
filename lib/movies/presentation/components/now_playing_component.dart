@@ -5,6 +5,7 @@ import 'package:cineverse/core/utils/app_constance.dart';
 import 'package:cineverse/core/utils/enums.dart';
 import 'package:cineverse/movies/presentation/controller/movies_bloc.dart';
 import 'package:cineverse/movies/presentation/controller/movies_state.dart';
+import 'package:cineverse/movies/presentation/screens/movie_detailsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -50,6 +51,12 @@ class NowPlayingComponent extends StatelessWidget {
                       key: const Key('openMovieMinimalDetail'),
                       onTap: () {
                         /// TODO : NAVIGATE TO MOVIE DETAILS
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  MovieDetailsScreen(id: item.id),
+                            ));
                       },
                       child: Stack(
                         children: [

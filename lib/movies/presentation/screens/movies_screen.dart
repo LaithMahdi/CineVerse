@@ -1,4 +1,5 @@
 import 'package:cineverse/core/services/services_locator.dart';
+import 'package:cineverse/core/utils/app_string.dart';
 import 'package:cineverse/movies/presentation/components/now_playing_component.dart';
 import 'package:cineverse/movies/presentation/components/popular_component.dart';
 import 'package:cineverse/movies/presentation/components/top_rated_component.dart';
@@ -32,7 +33,7 @@ class MoviesScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Popular",
+                      AppString.popular,
                       style: GoogleFonts.poppins(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
@@ -44,12 +45,12 @@ class MoviesScreen extends StatelessWidget {
                       onTap: () {
                         /// TODO : NAVIGATION TO POPULAR SCREEN
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Row(
-                          children: const [
+                          children: [
                             Text(
-                              'See More',
+                              AppString.seeMore,
                               style: TextStyle(
                                 color: Colors.white,
                               ),
@@ -78,7 +79,7 @@ class MoviesScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Top Rated",
+                      AppString.topRated,
                       style: GoogleFonts.poppins(
                         fontSize: 19,
                         fontWeight: FontWeight.w500,
@@ -90,12 +91,12 @@ class MoviesScreen extends StatelessWidget {
                       onTap: () {
                         /// TODO : NAVIGATION TO Top Rated Movies Screen
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Row(
-                          children: const [
+                          children: [
                             Text(
-                              'See More',
+                              AppString.seeMore,
                               style: TextStyle(
                                 color: Colors.white,
                               ),
