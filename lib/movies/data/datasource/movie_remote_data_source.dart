@@ -5,7 +5,9 @@ import 'package:cineverse/movies/data/datasource/base_movie_remote_data_source.d
 import 'package:cineverse/movies/data/models/movie_credits_model.dart';
 import 'package:cineverse/movies/data/models/movie_details_model.dart';
 import 'package:cineverse/movies/data/models/movie_model.dart';
+import 'package:cineverse/movies/data/models/movie_person_credits_model.dart';
 import 'package:cineverse/movies/data/models/recommendation_model.dart';
+import 'package:cineverse/movies/domain/usecases/get%20_movie_credits_person.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_credits_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_details_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_recommendation_usecase.dart';
@@ -112,6 +114,25 @@ class MovieRemoteDataSource implements BaseMovieRemoteDataSource {
               (e) => MovieCreditsModel.fromJson(e),
             )
             .take(10),
+      );
+    } else {
+      throw ServerException(
+        errorMessageModel: ErrorMessageModel.fromJson(response.data),
+      );
+    }
+  }
+
+  @override
+  Future<List<MoviePersonCreditsModel>> getMoviePersonCredits(
+      MovieCreditsPersonParameters parameters) async {
+    final response =
+        await Dio().get(AppConstance.creditPersonPath(parameters.personId));
+
+    if (response.statusCode == 200) {
+      return List<MoviePersonCreditsModel>.from(
+        (response.data["cast"] as List).map(
+          (e) => MoviePersonCreditsModel.fromJson(e),
+        ),
       );
     } else {
       throw ServerException(

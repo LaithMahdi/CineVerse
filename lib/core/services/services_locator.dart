@@ -2,12 +2,14 @@ import 'package:cineverse/movies/data/datasource/base_movie_remote_data_source.d
 import 'package:cineverse/movies/data/datasource/movie_remote_data_source.dart';
 import 'package:cineverse/movies/data/repository/movie_repository.dart';
 import 'package:cineverse/movies/domain/repository/base_movie_repository.dart';
+import 'package:cineverse/movies/domain/usecases/get%20_movie_credits_person.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_credits_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_details_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_recommendation_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_now_playing_movies_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_popular_movies_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_top_rated_usecase.dart';
+import 'package:cineverse/movies/presentation/controller/movie_credit_person_bloc.dart';
 import 'package:cineverse/movies/presentation/controller/movie_details_bloc.dart';
 import 'package:cineverse/movies/presentation/controller/movies_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -30,6 +32,8 @@ class ServicesLocator {
           sl(),
           sl(),
         ));
+
+    sl.registerFactory(() => MovieCreditPersonBloc(sl()));
     // Use Cases
 
     // Registering the GetNowPlayingMoviesUsecase use case.
@@ -39,6 +43,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetMovieDetailsUsecase(sl()));
     sl.registerLazySingleton(() => GetMovieRecommendationUsecase(sl()));
     sl.registerLazySingleton(() => GetMovieCreditsUsecase(sl()));
+    sl.registerLazySingleton(() => GetMovieCreditsPersonUsecase(sl()));
 
     // Repository
 

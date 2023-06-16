@@ -8,6 +8,7 @@ import 'package:cineverse/movies/domain/entities/movie_genres.dart';
 import 'package:cineverse/movies/presentation/controller/movie_details_bloc.dart';
 import 'package:cineverse/movies/presentation/controller/movie_details_event.dart';
 import 'package:cineverse/movies/presentation/controller/movie_details_state.dart';
+import 'package:cineverse/movies/presentation/screens/movie_credits_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,7 +27,7 @@ class MovieDetailsScreen extends StatelessWidget {
         ..add(GetMovieRecommendationEvent(id))
         ..add(GetMovieCreditsEvent(id)),
       lazy: false,
-      child: Scaffold(
+      child: const Scaffold(
         body: MovieDetailContent(),
       ),
     );
@@ -188,9 +189,9 @@ class MovieDetailContent extends StatelessWidget {
                     child: FadeInUp(
                       from: 20,
                       duration: const Duration(milliseconds: 500),
-                      child: const Text(
-                        AppString.moreLikeThis,
-                        style: TextStyle(
+                      child: Text(
+                        AppString.credits.toUpperCase(),
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.2,
@@ -209,9 +210,9 @@ class MovieDetailContent extends StatelessWidget {
                     child: FadeInUp(
                       from: 20,
                       duration: const Duration(milliseconds: 500),
-                      child: const Text(
-                        AppString.moreLikeThis,
-                        style: TextStyle(
+                      child: Text(
+                        AppString.moreLikeThis.toUpperCase(),
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1.2,
@@ -260,44 +261,77 @@ class MovieDetailContent extends StatelessWidget {
   Widget _showCredits() {
     return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
       builder: (context, state) {
-        return SliverGrid(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final credit = state.movieCredits[index];
-              return FadeInUp(
-                from: 20,
-                duration: const Duration(milliseconds: 500),
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(50)),
-                  child: CachedNetworkImage(
-                    imageUrl: AppConstance.imageUrl(credit.profilePath!),
-                    placeholder: (context, url) => Shimmer.fromColors(
-                      baseColor: Colors.grey[850]!,
-                      highlightColor: Colors.grey[800]!,
-                      child: Container(
-                        height: 50.0,
-                        width: 50.0,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(8.0),
+        return SliverToBoxAdapter(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(
+                state.movieCredits.length,
+                (index) {
+                  final credit = state.movieCredits[index];
+                  return GestureDetector(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MovieCreditsScreen(
+                            id: credit.id,
+                          ),
+                        )),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 14.0),
+                      child: FadeInUp(
+                        from: 20,
+                        duration: const Duration(milliseconds: 500),
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(50)),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    AppConstance.imageUrl(credit.profilePath!),
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: Colors.grey[850]!,
+                                  highlightColor: Colors.grey[800]!,
+                                  child: Container(
+                                    height: 100,
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                height: 100,
+                                width: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              child: Text(
+                                credit.name,
+                                style: const TextStyle(
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w400,
+                                  letterSpacing: 0.5,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    height: 50.0,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              );
-            },
-            childCount: state.movieCredits.length,
-          ),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 14.0,
-            crossAxisSpacing: 14.0,
-            childAspectRatio: 1,
-            crossAxisCount: 4,
+                  );
+                },
+              ),
+            ),
           ),
         );
       },
