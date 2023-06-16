@@ -17,7 +17,6 @@ class TopRatedComponent extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.topRatedState != current.topRatedState,
       builder: (context, state) {
-        print("BlocBuilder : TopRatedComponent");
         switch (state.topRatedState) {
           case RequestState.loading:
             return SizedBox(

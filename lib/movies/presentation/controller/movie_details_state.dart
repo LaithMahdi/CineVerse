@@ -1,4 +1,5 @@
 import 'package:cineverse/core/utils/enums.dart';
+import 'package:cineverse/movies/domain/entities/movie_credits.dart';
 import 'package:cineverse/movies/domain/entities/movie_detail.dart';
 import 'package:cineverse/movies/domain/entities/recommendation.dart';
 import 'package:equatable/equatable.dart';
@@ -11,6 +12,9 @@ class MovieDetailsState extends Equatable {
     this.movieRecommendations = const [],
     this.movieRecommendationsMessage = "",
     this.movieRecommendationsState = RequestState.loading,
+    this.movieCredits = const [],
+    this.movieCreditsMessage = "",
+    this.movieCreditsState = RequestState.loading,
   });
 
   final List<Recommendation> movieRecommendations;
@@ -21,6 +25,10 @@ class MovieDetailsState extends Equatable {
   final RequestState movieDetailsState;
   final String movieDetailsMessage;
 
+  final List<MovieCredits> movieCredits;
+  final RequestState movieCreditsState;
+  final String movieCreditsMessage;
+
   MovieDetailsState copyWith({
     MovieDetail? movieDetails,
     RequestState? movieDetailsState,
@@ -28,6 +36,9 @@ class MovieDetailsState extends Equatable {
     List<Recommendation>? movieRecommendations,
     RequestState? movieRecommendationsState,
     String? movieRecommendationsMessage,
+    List<MovieCredits>? movieCredits,
+    RequestState? movieCreditsState,
+    String? movieCreditsMessage,
   }) {
     return MovieDetailsState(
       movieDetails: movieDetails ?? this.movieDetails,
@@ -38,6 +49,9 @@ class MovieDetailsState extends Equatable {
           movieRecommendationsState ?? this.movieRecommendationsState,
       movieRecommendationsMessage:
           movieDetailsMessage ?? this.movieRecommendationsMessage,
+      movieCredits: movieCredits ?? this.movieCredits,
+      movieCreditsState: movieCreditsState ?? this.movieCreditsState,
+      movieCreditsMessage: movieCreditsMessage ?? this.movieCreditsMessage,
     );
   }
 
@@ -49,5 +63,8 @@ class MovieDetailsState extends Equatable {
         movieRecommendations,
         movieRecommendationsState,
         movieRecommendationsMessage,
+        movieCredits,
+        movieCreditsState,
+        movieCreditsMessage,
       ];
 }

@@ -1,8 +1,8 @@
 import 'package:cineverse/movies/data/datasource/base_movie_remote_data_source.dart';
 import 'package:cineverse/movies/data/datasource/movie_remote_data_source.dart';
 import 'package:cineverse/movies/data/repository/movie_repository.dart';
-import 'package:cineverse/movies/domain/entities/movie_detail.dart';
 import 'package:cineverse/movies/domain/repository/base_movie_repository.dart';
+import 'package:cineverse/movies/domain/usecases/get_movie_credits_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_details_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_recommendation_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_now_playing_movies_usecase.dart';
@@ -28,6 +28,7 @@ class ServicesLocator {
     sl.registerFactory(() => MovieDetailsBloc(
           sl(),
           sl(),
+          sl(),
         ));
     // Use Cases
 
@@ -37,6 +38,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetTopRatedUsecase(sl()));
     sl.registerLazySingleton(() => GetMovieDetailsUsecase(sl()));
     sl.registerLazySingleton(() => GetMovieRecommendationUsecase(sl()));
+    sl.registerLazySingleton(() => GetMovieCreditsUsecase(sl()));
 
     // Repository
 

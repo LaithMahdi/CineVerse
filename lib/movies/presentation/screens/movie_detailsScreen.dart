@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cineverse/core/services/services_locator.dart';
 import 'package:cineverse/core/utils/app_constance.dart';
 import 'package:cineverse/core/utils/app_string.dart';
-import 'package:cineverse/core/utils/dummy.dart';
 import 'package:cineverse/core/utils/enums.dart';
 import 'package:cineverse/movies/domain/entities/movie_genres.dart';
 import 'package:cineverse/movies/presentation/controller/movie_details_bloc.dart';
@@ -24,7 +23,8 @@ class MovieDetailsScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => sl<MovieDetailsBloc>()
         ..add(GetMovieDetailsEvent(id))
-        ..add(GetMovieRecommendationEvent(id)),
+        ..add(GetMovieRecommendationEvent(id))
+        ..add(GetMovieCreditsEvent(id)),
       lazy: false,
       child: Scaffold(
         body: MovieDetailContent(),
@@ -199,7 +199,27 @@ class MovieDetailContent extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Tab(text: 'More like this'.toUpperCase()),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
+                  sliver: _showCredits(),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+                  sliver: SliverToBoxAdapter(
+                    child: FadeInUp(
+                      from: 20,
+                      duration: const Duration(milliseconds: 500),
+                      child: const Text(
+                        AppString.moreLikeThis,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
                   sliver: _showRecommendations(),
@@ -235,6 +255,53 @@ class MovieDetailContent extends StatelessWidget {
     } else {
       return '${minutes}m';
     }
+  }
+
+  Widget _showCredits() {
+    return BlocBuilder<MovieDetailsBloc, MovieDetailsState>(
+      builder: (context, state) {
+        return SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              final credit = state.movieCredits[index];
+              return FadeInUp(
+                from: 20,
+                duration: const Duration(milliseconds: 500),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(50)),
+                  child: CachedNetworkImage(
+                    imageUrl: AppConstance.imageUrl(credit.profilePath!),
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey[850]!,
+                      highlightColor: Colors.grey[800]!,
+                      child: Container(
+                        height: 50.0,
+                        width: 50.0,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    height: 50.0,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
+            childCount: state.movieCredits.length,
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            mainAxisSpacing: 14.0,
+            crossAxisSpacing: 14.0,
+            childAspectRatio: 1,
+            crossAxisCount: 4,
+          ),
+        );
+      },
+    );
   }
 
   Widget _showRecommendations() {

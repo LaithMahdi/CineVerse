@@ -17,7 +17,6 @@ class PopularComponent extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.popularState != current.popularState,
       builder: (context, state) {
-        print("BlocBuilder : PopularComponent");
         switch (state.popularState) {
           case RequestState.loading:
             return SizedBox(
