@@ -4,6 +4,7 @@ import 'package:cineverse/core/services/services_locator.dart';
 import 'package:cineverse/core/utils/app_constance.dart';
 import 'package:cineverse/core/utils/app_string.dart';
 import 'package:cineverse/core/utils/enums.dart';
+import 'package:cineverse/movies/data/models/movie_credits_model.dart';
 import 'package:cineverse/movies/domain/entities/movie_genres.dart';
 import 'package:cineverse/movies/presentation/controller/movie_details_bloc.dart';
 import 'package:cineverse/movies/presentation/controller/movie_details_event.dart';
@@ -274,7 +275,7 @@ class MovieDetailContent extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => MovieCreditsScreen(
-                            id: credit.id,
+                            credit: credit as MovieCreditsModel,
                           ),
                         )),
                     child: Padding(

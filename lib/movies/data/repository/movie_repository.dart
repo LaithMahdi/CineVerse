@@ -87,9 +87,6 @@ class MovieRepository extends BaseMovieRepository {
       MovieCreditsPersonParameters parameters) async {
     final result =
         await baseMovieRemoteDataSource.getMoviePersonCredits(parameters);
-
-    print("result from movie rep  \n");
-    print(result);
     try {
       return Right(result);
     } on ServerException catch (failure) {

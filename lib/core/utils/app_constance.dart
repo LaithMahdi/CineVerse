@@ -35,4 +35,7 @@ class AppConstance {
 
   static const String baseImageUrl = "https://image.tmdb.org/t/p/w500";
   static String imageUrl(String path) => "$baseImageUrl$path";
+
+  static const String imageNotFound =
+      "https://aeroclub-issoire.fr/wp-content/uploads/2020/05/image-not-found.jpg";
 }

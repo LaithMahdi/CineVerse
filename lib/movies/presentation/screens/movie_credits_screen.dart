@@ -3,138 +3,185 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cineverse/core/services/services_locator.dart';
 import 'package:cineverse/core/utils/app_constance.dart';
 import 'package:cineverse/core/utils/enums.dart';
+import 'package:cineverse/movies/data/models/movie_credits_model.dart';
+import 'package:cineverse/movies/presentation/components/custom_movie_component.dart';
 import 'package:cineverse/movies/presentation/controller/movie_credit_person_bloc.dart';
 import 'package:cineverse/movies/presentation/controller/movie_credit_person_event.dart';
 import 'package:cineverse/movies/presentation/controller/movie_credit_person_state.dart';
+import 'package:cineverse/movies/presentation/screens/movie_details_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MovieCreditsScreen extends StatelessWidget {
-  // final MovieCreditsModel credit;
-  final int id;
+  final MovieCreditsModel credit;
   const MovieCreditsScreen({
     super.key,
-    required this.id,
+    required this.credit,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          sl<MovieCreditPersonBloc>()..add(GetMovieCreditPersonEvent(id)),
+      create: (context) => sl<MovieCreditPersonBloc>()
+        ..add(GetMovieCreditPersonEvent(credit.id)),
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // _personPicture(context),
-              // Text(
-              //   credit.name,
-              //   style: GoogleFonts.poppins(
-              //     fontSize: 23,
-              //     fontWeight: FontWeight.w700,
-              //     letterSpacing: 1.2,
-              //   ),
-              // ),
-              showPersonCredits()
-            ],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(children: [
+              FadeIn(
+                duration: const Duration(milliseconds: 500),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(500)),
+                  child: CachedNetworkImage(
+                    imageUrl: AppConstance.imageUrl(credit.profilePath!),
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey[850]!,
+                      highlightColor: Colors.grey[800]!,
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.25,
+                        width: MediaQuery.of(context).size.height * 0.25,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    width: MediaQuery.of(context).size.height * 0.25,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              //
+              Text(credit.name,
+                  style: GoogleFonts.poppins(
+                    fontSize: 23,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.2,
+                  )),
+              const SizedBox(height: 8.0),
+              _showPersonCredits(),
+            ]),
           ),
         ),
+        //     CustomScrollView(
+        //   slivers: [
+        //     SliverAppBar(
+        //       pinned: true,
+        //       expandedHeight: 250.0,
+        //       flexibleSpace: FlexibleSpaceBar(
+        //         background: FadeIn(
+        //           duration: const Duration(milliseconds: 500),
+        //           child: ShaderMask(
+        //             shaderCallback: (rect) {
+        //               return const LinearGradient(
+        //                 begin: Alignment.topCenter,
+        //                 end: Alignment.bottomCenter,
+        //                 colors: [
+        //                   Colors.transparent,
+        //                   Colors.black,
+        //                   Colors.black,
+        //                   Colors.transparent,
+        //                 ],
+        //                 stops: [0.0, 0.5, 1.0, 1.0],
+        //               ).createShader(
+        //                 Rect.fromLTRB(0.0, 0.0, rect.width, rect.height),
+        //               );
+        //             },
+        //             blendMode: BlendMode.dstIn,
+        //             child: CachedNetworkImage(
+        //               width: MediaQuery.of(context).size.width,
+        //               imageUrl: AppConstance.imageUrl(credit.profilePath!),
+        //               fit: BoxFit.cover,
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     SliverToBoxAdapter(
+        //       child: FadeInUp(
+        //         from: 20,
+        //         duration: const Duration(milliseconds: 500),
+        //         child: Padding(
+        //           padding: const EdgeInsets.all(16.0),
+        //           child: Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Text(credit.name,
+        //                   style: GoogleFonts.poppins(
+        //                     fontSize: 23,
+        //                     fontWeight: FontWeight.w700,
+        //                     letterSpacing: 1.2,
+        //                   )),
+        //               const SizedBox(height: 8.0),
+        //               SliverToBoxAdapter(child: Text("film")),
+        //             ],
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     _showPersonCredits(),
+        //   ],
+        // )
       ),
     );
   }
 }
 
-BlocBuilder<MovieCreditPersonBloc, MovieCreditPersonState> showPersonCredits() {
+Widget _showPersonCredits() {
   return BlocBuilder<MovieCreditPersonBloc, MovieCreditPersonState>(
       buildWhen: (previous, current) =>
           previous.movieCreditPerson != current.movieCreditPerson,
       builder: (context, state) {
-        print(state);
         switch (state.movieCreditPersonState) {
           case RequestState.loading:
-            return CircularProgressIndicator();
-          case RequestState.loaded:
-            return Container(
-              // height: MediaQuery.of(context).size.height * 0.5,
-              // width: MediaQuery.of(context).size.width * 0.7,
-              child: ListView.builder(
-                  itemCount: state.movieCreditPerson.length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    final item = state.movieCreditPerson[index];
-                    return Column(
-                      children: [
-                        Container(
-                          child: FadeIn(
-                            duration: const Duration(milliseconds: 500),
-                            child: ShaderMask(
-                              shaderCallback: (rect) {
-                                return const LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Colors.transparent,
-                                    Colors.black,
-                                    Colors.black,
-                                    Colors.transparent,
-                                  ],
-                                  stops: [0.0, 0.5, 1.0, 1.0],
-                                ).createShader(
-                                  Rect.fromLTRB(
-                                      0.0, 0.0, rect.width, rect.height),
-                                );
-                              },
-                              blendMode: BlendMode.dstIn,
-                              child: CachedNetworkImage(
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                imageUrl: item.backdropPath != null
-                                    ? AppConstance.imageUrl(item.backdropPath!)
-                                    : "https://e7.pngegg.com/pngimages/829/733/png-clipart-logo-brand-product-trademark-font-not-found-logo-brand.png",
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }),
+            return SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             );
+          case RequestState.loaded:
+            return ListView.separated(
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 15),
+                physics: const NeverScrollableScrollPhysics(),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                shrinkWrap: true,
+                itemCount: state.movieCreditPerson.length,
+                itemBuilder: (context, index) {
+                  final movie = state.movieCreditPerson[index];
+                  return CustomMovieComponent(
+                    title: movie.title,
+                    imageUrl: movie.backdropPath == null
+                        ? AppConstance.imageNotFound
+                        : AppConstance.imageUrl(movie.backdropPath!),
+                    releaseDate: movie.releaseDate,
+                    overview: movie.overview,
+                    voteAverage: movie.voteAverage,
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              MovieDetailsScreen(id: movie.id),
+                        )),
+                  );
+                });
           case RequestState.error:
             return Text("error");
         }
       });
 }
-
-//   FadeIn _personPicture(BuildContext context) {
-//     return FadeIn(
-//       duration: const Duration(milliseconds: 500),
-//       child: ShaderMask(
-//         shaderCallback: (rect) {
-//           return const LinearGradient(
-//             begin: Alignment.bottomCenter,
-//             end: Alignment.topCenter,
-//             colors: [
-//               Colors.transparent,
-//               Colors.black,
-//               Colors.black,
-//               Colors.transparent,
-//             ],
-//             stops: [0, 0.3, 1.0, 0],
-//           ).createShader(
-//             Rect.fromLTRB(0.0, 0.0, rect.width, rect.height),
-//           );
-//         },
-//         blendMode: BlendMode.dstIn,
-//         child: CachedNetworkImage(
-//           width: MediaQuery.of(context).size.width,
-//           height: MediaQuery.of(context).size.height * 0.5,
-//           imageUrl: AppConstance.imageUrl(credit.profilePath!),
-//           fit: BoxFit.fill,
-//         ),
-//       ),
-//     );
-//   }
-// }
