@@ -46,7 +46,20 @@ class MovieDetailContent extends StatelessWidget {
       builder: (context, state) {
         switch (state.movieDetailsState) {
           case RequestState.loading:
-            return Container();
+            return SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            );
+
           case RequestState.loaded:
             return CustomScrollView(
               key: const Key('movieDetailScrollView'),

@@ -4,6 +4,7 @@ import 'package:cineverse/movies/data/datasource/base_movie_remote_data_source.d
 import 'package:cineverse/movies/domain/entities/movie.dart';
 import 'package:cineverse/movies/domain/entities/movie_credits.dart';
 import 'package:cineverse/movies/domain/entities/movie_detail.dart';
+import 'package:cineverse/movies/domain/entities/movie_genres.dart';
 import 'package:cineverse/movies/domain/entities/movie_person_credits.dart';
 import 'package:cineverse/movies/domain/entities/recommendation.dart';
 import 'package:cineverse/movies/domain/repository/base_movie_repository.dart';
@@ -87,6 +88,16 @@ class MovieRepository extends BaseMovieRepository {
       MovieCreditsPersonParameters parameters) async {
     final result =
         await baseMovieRemoteDataSource.getMoviePersonCredits(parameters);
+    try {
+      return Right(result);
+    } on ServerException catch (failure) {
+      return Left(ServerFailure(failure.errorMessageModel.statusMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<MovieGenre>>> getMovieGenres() async {
+    final result = await baseMovieRemoteDataSource.getMovieGenres();
     try {
       return Right(result);
     } on ServerException catch (failure) {

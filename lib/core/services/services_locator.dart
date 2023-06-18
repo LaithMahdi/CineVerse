@@ -5,12 +5,15 @@ import 'package:cineverse/movies/domain/repository/base_movie_repository.dart';
 import 'package:cineverse/movies/domain/usecases/get%20_movie_credits_person.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_credits_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_details_usecase.dart';
+import 'package:cineverse/movies/domain/usecases/get_movie_genres_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_movie_recommendation_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_now_playing_movies_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_popular_movies_usecase.dart';
 import 'package:cineverse/movies/domain/usecases/get_top_rated_usecase.dart';
 import 'package:cineverse/movies/presentation/controller/movie_credit_person_bloc.dart';
 import 'package:cineverse/movies/presentation/controller/movie_details_bloc.dart';
+import 'package:cineverse/movies/presentation/controller/movie_genre_category_bloc.dart';
+
 import 'package:cineverse/movies/presentation/controller/movies_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -34,6 +37,8 @@ class ServicesLocator {
         ));
 
     sl.registerFactory(() => MovieCreditPersonBloc(sl()));
+    sl.registerFactory(() => MovieGenreCategoryBloc(sl()));
+    // sl.registerFactory(() => MovieGenresBloc(sl()));
     // Use Cases
 
     // Registering the GetNowPlayingMoviesUsecase use case.
@@ -44,6 +49,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetMovieRecommendationUsecase(sl()));
     sl.registerLazySingleton(() => GetMovieCreditsUsecase(sl()));
     sl.registerLazySingleton(() => GetMovieCreditsPersonUsecase(sl()));
+    sl.registerLazySingleton(() => GetMovieGenresUsecase(sl()));
 
     // Repository
 

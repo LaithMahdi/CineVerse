@@ -4,6 +4,7 @@ import 'package:cineverse/core/utils/app_constance.dart';
 import 'package:cineverse/core/utils/enums.dart';
 import 'package:cineverse/movies/presentation/controller/movies_bloc.dart';
 import 'package:cineverse/movies/presentation/controller/movies_state.dart';
+import 'package:cineverse/movies/presentation/screens/movie_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -45,9 +46,13 @@ class PopularComponent extends StatelessWidget {
                     return Container(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: InkWell(
-                        onTap: () {
-                          /// TODO : NAVIGATE TO  MOVIE DETAILS
-                        },
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                MovieDetailsScreen(id: movie.id),
+                          ),
+                        ),
                         child: ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(8.0)),

@@ -6,7 +6,7 @@ class MoviePersonCredits extends Equatable {
   final String title;
   final String? backdropPath;
   final double voteAverage;
-  final String releaseDate;
+  final String? releaseDate;
 
   const MoviePersonCredits({
     required this.id,
@@ -14,7 +14,7 @@ class MoviePersonCredits extends Equatable {
     required this.title,
     this.backdropPath,
     required this.voteAverage,
-    required this.releaseDate,
+    this.releaseDate,
   });
 
   @override

@@ -69,65 +69,6 @@ class MovieCreditsScreen extends StatelessWidget {
             ]),
           ),
         ),
-        //     CustomScrollView(
-        //   slivers: [
-        //     SliverAppBar(
-        //       pinned: true,
-        //       expandedHeight: 250.0,
-        //       flexibleSpace: FlexibleSpaceBar(
-        //         background: FadeIn(
-        //           duration: const Duration(milliseconds: 500),
-        //           child: ShaderMask(
-        //             shaderCallback: (rect) {
-        //               return const LinearGradient(
-        //                 begin: Alignment.topCenter,
-        //                 end: Alignment.bottomCenter,
-        //                 colors: [
-        //                   Colors.transparent,
-        //                   Colors.black,
-        //                   Colors.black,
-        //                   Colors.transparent,
-        //                 ],
-        //                 stops: [0.0, 0.5, 1.0, 1.0],
-        //               ).createShader(
-        //                 Rect.fromLTRB(0.0, 0.0, rect.width, rect.height),
-        //               );
-        //             },
-        //             blendMode: BlendMode.dstIn,
-        //             child: CachedNetworkImage(
-        //               width: MediaQuery.of(context).size.width,
-        //               imageUrl: AppConstance.imageUrl(credit.profilePath!),
-        //               fit: BoxFit.cover,
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //     SliverToBoxAdapter(
-        //       child: FadeInUp(
-        //         from: 20,
-        //         duration: const Duration(milliseconds: 500),
-        //         child: Padding(
-        //           padding: const EdgeInsets.all(16.0),
-        //           child: Column(
-        //             crossAxisAlignment: CrossAxisAlignment.start,
-        //             children: [
-        //               Text(credit.name,
-        //                   style: GoogleFonts.poppins(
-        //                     fontSize: 23,
-        //                     fontWeight: FontWeight.w700,
-        //                     letterSpacing: 1.2,
-        //                   )),
-        //               const SizedBox(height: 8.0),
-        //               SliverToBoxAdapter(child: Text("film")),
-        //             ],
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //     _showPersonCredits(),
-        //   ],
-        // )
       ),
     );
   }
@@ -169,7 +110,7 @@ Widget _showPersonCredits() {
                     imageUrl: movie.backdropPath == null
                         ? AppConstance.imageNotFound
                         : AppConstance.imageUrl(movie.backdropPath!),
-                    releaseDate: movie.releaseDate,
+                    releaseDate: movie.releaseDate!,
                     overview: movie.overview,
                     voteAverage: movie.voteAverage,
                     onTap: () => Navigator.push(

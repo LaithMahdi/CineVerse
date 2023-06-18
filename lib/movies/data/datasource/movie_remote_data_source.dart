@@ -4,6 +4,7 @@ import 'package:cineverse/core/error/exceptions.dart';
 import 'package:cineverse/movies/data/datasource/base_movie_remote_data_source.dart';
 import 'package:cineverse/movies/data/models/movie_credits_model.dart';
 import 'package:cineverse/movies/data/models/movie_details_model.dart';
+import 'package:cineverse/movies/data/models/movie_genres_model.dart';
 import 'package:cineverse/movies/data/models/movie_model.dart';
 import 'package:cineverse/movies/data/models/movie_person_credits_model.dart';
 import 'package:cineverse/movies/data/models/recommendation_model.dart';
@@ -132,6 +133,23 @@ class MovieRemoteDataSource implements BaseMovieRemoteDataSource {
       return List<MoviePersonCreditsModel>.from(
         (response.data["cast"] as List).map(
           (e) => MoviePersonCreditsModel.fromJson(e),
+        ),
+      );
+    } else {
+      throw ServerException(
+        errorMessageModel: ErrorMessageModel.fromJson(response.data),
+      );
+    }
+  }
+
+  @override
+  Future<List<MovieGenresModel>> getMovieGenres() async {
+    final response = await Dio().get(AppConstance.genresMoviePath);
+
+    if (response.statusCode == 200) {
+      return List<MovieGenresModel>.from(
+        (response.data["genres"] as List).map(
+          (e) => MovieGenresModel.fromJson(e),
         ),
       );
     } else {

@@ -2,6 +2,7 @@ import 'package:cineverse/core/error/failure.dart';
 import 'package:cineverse/movies/domain/entities/movie.dart';
 import 'package:cineverse/movies/domain/entities/movie_credits.dart';
 import 'package:cineverse/movies/domain/entities/movie_detail.dart';
+import 'package:cineverse/movies/domain/entities/movie_genres.dart';
 import 'package:cineverse/movies/domain/entities/movie_person_credits.dart';
 import 'package:cineverse/movies/domain/entities/recommendation.dart';
 import 'package:cineverse/movies/domain/usecases/get%20_movie_credits_person.dart';
@@ -25,4 +26,6 @@ abstract class BaseMovieRepository {
 
   Future<Either<Failure, List<MoviePersonCredits>>> getMovieCreditsPerson(
       MovieCreditsPersonParameters parameters);
+
+  Future<Either<Failure, List<MovieGenre>>> getMovieGenres();
 }

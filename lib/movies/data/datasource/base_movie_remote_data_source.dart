@@ -1,5 +1,6 @@
 import 'package:cineverse/movies/data/models/movie_credits_model.dart';
 import 'package:cineverse/movies/data/models/movie_details_model.dart';
+import 'package:cineverse/movies/data/models/movie_genres_model.dart';
 import 'package:cineverse/movies/data/models/movie_model.dart';
 import 'package:cineverse/movies/data/models/movie_person_credits_model.dart';
 import 'package:cineverse/movies/data/models/recommendation_model.dart';
@@ -20,4 +21,6 @@ abstract class BaseMovieRemoteDataSource {
 
   Future<List<MoviePersonCreditsModel>> getMoviePersonCredits(
       MovieCreditsPersonParameters parameters);
+
+  Future<List<MovieGenresModel>> getMovieGenres();
 }

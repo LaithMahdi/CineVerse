@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class MoviesEvent extends Equatable {
-  MoviesEvent();
+  const MoviesEvent();
 
   @override
   // TODO: implement props

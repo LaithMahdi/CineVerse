@@ -33,6 +33,9 @@ class AppConstance {
   static String creditPersonPath(int personId) =>
       "$baseUrl/person/$personId/movie_credits?api_key=$apiKey";
 
+  // Endpoint for fetching now playing movies
+  static const String genresMoviePath =
+      "$baseUrl/genre/movie/list?api_key=$apiKey";
   static const String baseImageUrl = "https://image.tmdb.org/t/p/w500";
   static String imageUrl(String path) => "$baseImageUrl$path";
 
